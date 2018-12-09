@@ -1,0 +1,28 @@
+<h2>Show Simulation</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @simulation.name %>
+  </li>
+
+  <li>
+    <strong>Peers:</strong>
+    <%= @simulation.peers %>
+  </li>
+
+  <li>
+    <strong>Miners:</strong>
+    <%= @simulation.miners %>
+  </li>
+
+  <li>
+    <strong>Mining reward:</strong>
+    <%= @simulation.mining_reward %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: simulation_path(@conn, :edit, @simulation) %></span>
+<span><%= link "Back", to: simulation_path(@conn, :index) %></span>
