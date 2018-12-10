@@ -1,32 +1,40 @@
-<h2>Listing Simulation</h2>
+<div class="card">
+  <div class="card-header d-flex">
+    <div>Simulation</div>
+    <span class="ml-auto"><%= link "New Simulation", to: simulation_path(@conn, :new), class: "btn btn-primary"%></span>
+  </div>
+  <div class="card-body">
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th>Name</th>
+          <th>Peers</th>
+          <th>Miners</th>
+          <th>Mining reward</th>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Peers</th>
-      <th>Miners</th>
-      <th>Mining reward</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for simulation <- @simulation do %>
+            <tr>
+              <td><%= simulation.name %></td>
+              <td><%= simulation.peers %></td>
+              <td><%= simulation.miners %></td>
+              <td><%= simulation.mining_reward %></td>
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for simulation <- @simulation do %>
-    <tr>
-      <td><%= simulation.name %></td>
-      <td><%= simulation.peers %></td>
-      <td><%= simulation.miners %></td>
-      <td><%= simulation.mining_reward %></td>
+              <td class="text-center">
+                <span><%= link "", to: simulation_path(@conn, :show, simulation), class: "far fa-eye" %></span>
+                <span><%= link "", to: simulation_path(@conn, :edit, simulation), class: "far fa-edit" %></span>
+                <span><%= link "", to: simulation_path(@conn, :delete, simulation), method: :delete, data: [confirm: "Are you sure?"], class: "far fa-trash-alt" %></span>
+              </td>
+            </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
 
-      <td class="text-right">
-        <span><%= link "Show", to: simulation_path(@conn, :show, simulation), class: "btn btn-default btn-xs" %></span>
-        <span><%= link "Edit", to: simulation_path(@conn, :edit, simulation), class: "btn btn-default btn-xs" %></span>
-        <span><%= link "Delete", to: simulation_path(@conn, :delete, simulation), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
-      </td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
 
-<span><%= link "New Simulation", to: simulation_path(@conn, :new) %></span>
+
+

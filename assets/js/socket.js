@@ -59,7 +59,8 @@ let channel = socket.channel("simulation:basic", {});
 let graphDiv = document.querySelector("#graph-container");
 
 channel.on("new_msg", payload => {
-  alert("hello!");
+  let runSimButton = document.getElementById("run-simulation-button");
+  runSimButton.remove();
   console.log("payload:" + payload);
 });
 
