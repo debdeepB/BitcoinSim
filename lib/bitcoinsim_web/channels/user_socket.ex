@@ -2,7 +2,7 @@ defmodule BitcoinsimWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", BitcoinsimWeb.RoomChannel
+  channel "simulation:*", BitcoinsimWeb.SimulationChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
