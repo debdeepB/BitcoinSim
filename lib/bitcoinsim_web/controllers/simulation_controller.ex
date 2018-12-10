@@ -57,4 +57,12 @@ defmodule BitcoinsimWeb.SimulationController do
     |> put_flash(:info, "Simulation deleted successfully.")
     |> redirect(to: simulation_path(conn, :index))
   end
+
+  def run(conn, %{"id" => id}) do
+    simulation = Simulations.get_simulation!(id)
+    Runner.run(simulation)
+    conn
+    |> put_flash(:info, "Simulation started successfully.")
+    |> redirect(to: simulation_path(conn, :show, simulation))
+  end
 end

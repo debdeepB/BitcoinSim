@@ -23,6 +23,5 @@
   </li>
 
 </ul>
+<span><%= link "Run Simulation", to: simulation_path(@conn, :run, @simulation), method: :post, class: "btn btn-primary" %></span>
 
-<span><%= link "Edit", to: simulation_path(@conn, :edit, @simulation) %></span>
-<span><%= link "Back", to: simulation_path(@conn, :index) %></span>

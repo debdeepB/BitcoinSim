@@ -16,8 +16,8 @@ defmodule BitcoinsimWeb.Router do
   scope "/", BitcoinsimWeb do
     pipe_through :browser # Use the default browser stack
 
-    get "/", PageController, :index
-    resources "/simulation", SimulationController
+    post "/run/:id", SimulationController, :run
+    resources "/", SimulationController
   end
 
   # Other scopes may use custom stacks.
