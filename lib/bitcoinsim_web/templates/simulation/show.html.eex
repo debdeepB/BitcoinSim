@@ -1,27 +1,34 @@
-<h2>Show Simulation</h2>
+<div class="flex-row">
+  <table class="table table-bordered">
+    <tr class="ml-auto">
+      <span><%= link "Run Simulation", to: simulation_path(@conn, :run, @simulation), method: :post, class: "btn btn-primary" %></span>
+    </tr>
+    <tr>
+      <td>
+        <strong>Name:</strong>
+        <%= @simulation.name %>
+      </td>
 
-<ul>
+      <td>
+        <strong>Peers:</strong>
+        <%= @simulation.peers %>
+      </td>
 
-  <li>
-    <strong>Name:</strong>
-    <%= @simulation.name %>
-  </li>
+      <td>
+        <strong>Miners:</strong>
+        <%= @simulation.miners %>
+      </td>
 
-  <li>
-    <strong>Peers:</strong>
-    <%= @simulation.peers %>
-  </li>
+      <td>
+        <strong>Mining reward:</strong>
+        <%= @simulation.mining_reward %>
+      </td>
+    </tr>
+    <tr>
+      <div id="graph-container"></div>
+    </tr>
+  </table>
+</div>
 
-  <li>
-    <strong>Miners:</strong>
-    <%= @simulation.miners %>
-  </li>
 
-  <li>
-    <strong>Mining reward:</strong>
-    <%= @simulation.mining_reward %>
-  </li>
-
-</ul>
-<span><%= link "Run Simulation", to: simulation_path(@conn, :run, @simulation), method: :post, class: "btn btn-primary" %></span>
 

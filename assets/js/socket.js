@@ -55,6 +55,25 @@ socket.connect();
 
 // Now that you are connected, you can join channels with a topic:
 let channel = socket.channel("simulation:basic", {});
+
+let graphDiv = document.querySelector("#graph-container");
+
+graphDiv.addEventListener(
+  "keypress",
+  event => {
+    if (event.keyCode === 13) {
+      channel.push("new_msg", { body: chatInput.value });
+      chatInput.value = "";
+    }
+  },
+  false
+);
+
+channel.on("new_msg", payload => {
+  alert("hello!");
+  console.log("payload:" + payload);
+});
+
 channel
   .join()
   .receive("ok", resp => {
