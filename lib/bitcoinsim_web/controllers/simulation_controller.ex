@@ -61,8 +61,6 @@ defmodule BitcoinsimWeb.SimulationController do
   def run(conn, %{"id" => id}) do
     simulation = Simulations.get_simulation!(id)
     Runner.run(simulation)
-    conn
-    |> put_flash(:info, "Simulation started successfully.")
-    |> redirect(to: simulation_path(conn, :show, simulation))
+    json(conn, %{id: id})
   end
 end

@@ -3,9 +3,47 @@
     <div>
       <%= @simulation.name %>
     </div>
-    <span id="run-simulation-button" class="ml-auto"><%= link "Run Simulation", to: simulation_path(@conn, :run, @simulation), method: :post, class: "btn btn-primary" %></span>
+    <button id="run-simulation-button" class="btn btn-success ml-auto" value=<%= @simulation.id %> data-csrf-value=<%= Plug.CSRFProtection.get_csrf_token() %>>Run Simulation</button>
+  </div>
+  <div class="d-flex flex-row no-gutters h-100">
+    <div class="card border border-top-0 border-left-0 flex-column col-6 col-md-4">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span class="font-weight-bold">Transaction Ledger</span>
+      </div>
+      <div class="card-body p-0">
+        <ul id="transactions" class="list-group" style="overflow-y:scroll; max-height: calc(100vh - 326px); height:calc(100vh - 326px);">
+        </ul>  
+      </div>
+    </div>
+    <div class="flex-column col-12 col-md-8 pr-1 h-100">
+      <div id="graphDiv" class="h-100">
+      </div>
+    </div>
   </div>
 </div>
+<script>
+$("#run-simulation-button").click(function(){
+    console.log(this.getAttribute("data-csrf-value"));
+    let csrfToken = this.getAttribute("data-csrf-value");
+    $.ajax({
+        type: "POST",
+        beforeSend: function(request) {
+          request.setRequestHeader("x-csrf-token", csrfToken);
+        },
+        url: `/run/${$(this).val()}`,
+        dataType: 'json',
+        contentType: 'json',
+        data: { 
+            id: $(this).val()
+        },
+        success: function(result) {
+        },
+        error: function(result) {
+            alert('error');
+        }
+    });
+});
+</script>
 
 
 

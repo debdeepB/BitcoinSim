@@ -59,9 +59,17 @@ let channel = socket.channel("simulation:basic", {});
 let graphDiv = document.querySelector("#graph-container");
 
 channel.on("new_msg", payload => {
-  let runSimButton = document.getElementById("run-simulation-button");
-  runSimButton.remove();
   console.log("payload:" + payload);
+});
+
+channel.on("new_tx", payload => {
+  let transactions = document.getElementById("transactions");
+  var li = document.createElement("li");
+  $(li).addClass("list-group-item");
+  li.appendChild(
+    document.createTextNode(JSON.stringify(payload.payload, null, 2))
+  );
+  transactions.appendChild(li);
 });
 
 channel

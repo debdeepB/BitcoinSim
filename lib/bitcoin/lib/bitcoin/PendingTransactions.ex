@@ -33,6 +33,7 @@ defmodule PendingTransactions do
 
   @impl true
   def handle_cast({:add, tx}, state) do
+    BitcoinsimWeb.Endpoint.broadcast("simulation:basic", "new_tx", %{payload: tx})
     {:noreply, state ++ [tx]}
   end
   
