@@ -28,6 +28,7 @@ defmodule PendingTransactions do
   end
 
   def handle_call(:reset, _from, _state) do
+    BitcoinsimWeb.Endpoint.broadcast("simulation:basic", "clear_txs", %{})
     {:reply, [], []}
   end
 

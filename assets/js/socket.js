@@ -70,6 +70,14 @@ channel.on("new_tx", payload => {
     document.createTextNode(JSON.stringify(payload.payload, null, 2))
   );
   transactions.appendChild(li);
+  transactions.scrollTop = transactions.scrollHeight;
+});
+
+channel.on("clear_txs", payload => {
+  let transactions = document.getElementById("transactions");
+  while (transactions.firstChild) {
+    transactions.removeChild(transactions.firstChild);
+  }
 });
 
 channel

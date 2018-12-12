@@ -60,7 +60,7 @@ defmodule BitcoinsimWeb.SimulationController do
 
   def run(conn, %{"id" => id}) do
     simulation = Simulations.get_simulation!(id)
-    Runner.run(simulation)
+    Task.async fn -> Runner.run(simulation) end
     json(conn, %{id: id})
   end
 end
