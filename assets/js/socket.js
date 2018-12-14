@@ -4,6 +4,7 @@
 // To use Phoenix channels, the first step is to import Socket
 // and connect at the socket path in "lib/web/endpoint.ex":
 import { Socket } from "phoenix";
+import "./blockchain.js";
 
 let socket = new Socket("/socket", { params: { token: window.userToken } });
 
@@ -56,15 +57,128 @@ socket.connect();
 // Now that you are connected, you can join channels with a topic:
 let channel = socket.channel("simulation:basic", {});
 
-let graphDiv = document.querySelector("#graph-container");
+var startTime = new Date();
 
-channel.on("new_msg", payload => {
-  console.log("payload:" + payload);
+let tx_chart_data = {
+  labels: [0],
+  datasets: [
+    {
+      label: "Transactions done",
+      data: [0],
+      borderWidth: 1,
+      borderColor: "rgba(255, 99, 132, 1.0)",
+      backgroundColor: "rgba(255, 99, 132, 0.2)"
+    }
+  ]
+};
+
+let tx_chart_per_block_data = {
+  labels: [0],
+  datasets: [
+    {
+      label: "Transactions/block",
+      data: [0],
+      borderWidth: 1,
+      borderColor: "rgba(45, 96, 216, 1.0)",
+      backgroundColor: "rgba(45, 96, 216, 0.2)"
+    }
+  ]
+};
+
+let block_chart_data = {
+  labels: [0],
+  datasets: [
+    {
+      label: "Blocks Mined",
+      data: [0],
+      borderWidth: 1,
+      borderColor: "rgba(45, 216, 164, 1.0)",
+      backgroundColor: "rgba(45, 216, 164, 0.2)"
+    }
+  ]
+};
+
+let blocks_per_second = {
+  labels: [0],
+  datasets: [
+    {
+      label: "Blocks Mined Per Second",
+      data: [0],
+      borderWidth: 1,
+      borderColor: "rgba(216, 119, 45, 1.0)",
+      backgroundColor: "rgba(216, 119, 45, 0.2)"
+    }
+  ]
+};
+
+let options = {
+  scales: {
+    xAxes: [
+      {
+        ticks: {
+          min: 0,
+          stepSize: 1
+        }
+      }
+    ]
+  }
+};
+
+let totalTransactions = 0;
+let transactionsPerBlock = 0;
+let totalBlocksMined = 0;
+
+var ctx = document.getElementById("txChart").getContext("2d");
+var blocksMinedEl = document.getElementById("blocksChart").getContext("2d");
+var txChartPerBlockEl = document
+  .getElementById("txChartPerBlock")
+  .getContext("2d");
+var blocksMinedPerSecondEl = document
+  .getElementById("blocksMinedPerSecond")
+  .getContext("2d");
+
+let transactionsCompletedSpan = document.getElementById(
+  "transactions-completed"
+);
+let blocksMinedSpan = document.getElementById("blocks-mined");
+let blocksMinedPerSecondSpan = document.getElementById(
+  "blocks-mined-per-second"
+);
+let transactionsPerSecondSpan = document.getElementById(
+  "transactions-per-second"
+);
+
+let txChart = new Chart(ctx, {
+  type: "line",
+  data: tx_chart_data,
+  options: options
+});
+
+let blocksMinedChart = new Chart(blocksMinedEl, {
+  type: "line",
+  data: block_chart_data,
+  options: options
+});
+
+let txChartPerBlock = new Chart(txChartPerBlockEl, {
+  type: "line",
+  data: tx_chart_per_block_data,
+  options: options
+});
+
+let blocksMinedPerSecondChart = new Chart(blocksMinedPerSecondEl, {
+  type: "line",
+  data: blocks_per_second,
+  options: options
 });
 
 channel.on("new_tx", payload => {
   let transactions = document.getElementById("transactions");
   var li = document.createElement("li");
+  totalTransactions = totalTransactions + 1;
+  transactionsPerBlock = transactionsPerBlock + 1;
+  addData(txChart, totalTransactions);
+  addData(txChartPerBlock, transactionsPerBlock);
   $(li).addClass("list-group-item");
   li.appendChild(
     document.createTextNode(JSON.stringify(payload.payload, null, 2))
@@ -78,6 +192,18 @@ channel.on("clear_txs", payload => {
   while (transactions.firstChild) {
     transactions.removeChild(transactions.firstChild);
   }
+  totalBlocksMined = totalBlocksMined + 1;
+  transactionsPerBlock = 0;
+  addData(blocksMinedChart, totalBlocksMined);
+  var timeDiff = Math.round((new Date() - startTime) / 1000); //in ms
+  addData(blocksMinedPerSecondChart, totalBlocksMined / timeDiff);
+  transactionsCompletedSpan.innerHTML =
+    "Completed Transactions: " + totalTransactions + " | ";
+  blocksMinedSpan.innerHTML = "Blocks Mined: " + totalBlocksMined + " | ";
+  transactionsPerSecondSpan.innerHTML =
+    "Transactions Per Second: " + totalTransactions / timeDiff + " | ";
+  blocksMinedPerSecondSpan.innerHTML =
+    "Blocks Mined Per Second: " + totalBlocksMined / timeDiff;
 });
 
 channel
@@ -88,5 +214,14 @@ channel
   .receive("error", resp => {
     console.log("Unable to join", resp);
   });
+
+function addData(chart, data) {
+  var last_label = chart.data.labels[chart.data.labels.length - 1];
+  chart.data.labels.push(last_label + 1);
+  chart.data.datasets.forEach(dataset => {
+    dataset.data.push(data);
+  });
+  chart.update();
+}
 
 export default socket;

@@ -34,7 +34,7 @@ defmodule Runner do
       if (peer1 != peer2) do
         amount = :rand.uniform(10)/1
         Peer.perform_transaction(peer1, {:sys.get_state(peer2).keypair.public_key, amount})
-        :timer.sleep(42)
+        :timer.sleep(500)
       end
       loop(simulation, iterations - 1)
     end

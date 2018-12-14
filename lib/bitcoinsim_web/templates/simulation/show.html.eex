@@ -1,7 +1,11 @@
 <div class="card">
   <div class="card-header d-flex">
     <div>
-      <%= @simulation.name %>
+      <span class="font-weight-bold"><%= @simulation.name %></span>
+      <span id="transactions-completed"></span>
+      <span id="blocks-mined"></span>
+      <span id="transactions-per-second"></span>
+      <span id="blocks-mined-per-second"></span>
     </div>
     <button id="run-simulation-button" class="btn btn-success ml-auto" value=<%= @simulation.id %> data-csrf-value=<%= Plug.CSRFProtection.get_csrf_token() %>>Run Simulation</button>
   </div>
@@ -15,9 +19,13 @@
         </ul>  
       </div>
     </div>
-    <div class="flex-column col-12 col-md-8 pr-1 h-100">
-      <div id="graphDiv" class="h-100">
-      </div>
+    <div class="flex-row col-6 col-md-4 pr-1 h-100">
+      <canvas id="txChart" ></canvas>
+      <canvas id="blocksChart"></canvas>
+    </div>
+    <div class="flex-row col-6 col-md-4 pr-1 h-100">
+      <canvas id="txChartPerBlock"></canvas>
+      <canvas id="blocksMinedPerSecond"></canvas>
     </div>
   </div>
 </div>
