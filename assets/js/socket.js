@@ -216,8 +216,8 @@ channel
   });
 
 function addData(chart, data) {
-  var last_label = chart.data.labels[chart.data.labels.length - 1];
-  chart.data.labels.push(last_label + 1);
+  var last = chart.data.labels[chart.data.labels.length - 1];
+  chart.data.labels.push(last + 1);
   chart.data.datasets.forEach(dataset => {
     dataset.data.push(data);
   });

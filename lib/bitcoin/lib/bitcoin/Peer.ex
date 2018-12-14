@@ -34,7 +34,7 @@ defmodule Peer do
                                                       state.keypair.public_key,
                                                       List.last(state.blockchain).hash)
     # broadcast this block to all peers
-    num_peers = 3
+    num_peers = 100
     Enum.each(1..num_peers, fn id ->
       Peer.validate(:global.whereis_name("peer-" <> Integer.to_string(id)), mined_block)
     end)
