@@ -1,10 +1,5 @@
 # Bitcoinsim
 
-## Group Members
-
-Debdeep Basu (4301-3324)
-Ali Akbar (8498-3349)
-
 youtube url of the demo: https://www.youtube.com/watch?v=ggXe7i-YPL0&feature=youtu.be
 
 ## Setup
