@@ -1,6 +1,13 @@
 # Bitcoinsim
 
-youtube url of the demo: https://www.youtube.com/watch?v=ggXe7i-YPL0&feature=youtu.be
+![](btcgif.gif)
+
+This is a simulation of the [distributed implementation of Savjee Coin](https://github.com/debdeepB/Bitcoin) in Elixir using the Phoenix web framework.
+
+Websockets are used to provide realtime graphs and stats for a bitcoin simulation. Several parameters of the simulation can be adjusted.
+
+Chart.js is used as a graphing library for plotting the graphs.
+
 
 ## Setup
 
@@ -17,10 +24,6 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 
 # Features
 
-This is a phoenix web app which uses websockets to provide realtime graphs and stats for a bitcoin simulation. Several parameters of the simulation can be adjusted.
-
-Chart.js is used as a graphing library for plotting the graphs.
-
 Metrics displayed -
 
 transactions-completed  
@@ -31,7 +34,7 @@ transactions-per-block
 
 All of these are displayed realtime in a chart along with the transaction ledger where transactions are added and are cleared (whenever a block is mined).
 
-Initially, 100 peers are spawned (depends on user input). All of the peers randomly transact random number of bitcoins with each other. Random peers start mining and mine blocks. Each peer has their own copy of the blockchain. Whenever a new block gets mined, it is broadcasted to all other peers and is validated by everyone. Only then is it added to the blockchain.
+Initially, n number of peers are spawned (depends on user input). All of the peers randomly transact random number of bitcoins with each other. Random peers start mining and mine blocks. Each peer has their own copy of the blockchain. Whenever a new block gets mined, it is broadcasted to all other peers and is validated by everyone. Only then is it added to the blockchain.
 
 ## Blockchain Features
 
